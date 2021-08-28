@@ -19,6 +19,6 @@ data = requests.get(url, headers = {'User-agent': 'your bot 0.1'})
 #print(str(data.text))
 
 # Write the json data to an outfile
-with open(subreddit + '_scrape.json', 'w') as outfile:
+with open("json/" + subreddit + '_scrape.json', 'w') as outfile:
 	outfile.write(data.text)
 	outfile.close()
