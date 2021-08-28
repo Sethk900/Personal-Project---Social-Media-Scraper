@@ -9,6 +9,10 @@ def homePage():
 	os.system('pwd ; ls ; ls images')
 	return render_template('home.html')
 
+@app.route('/home')
+def routeHome():
+	return render_template('home.html')
+
 @app.route('/redditScraper')
 def redditHome():
 	return render_template('reddit_home.html')
