@@ -27,15 +27,18 @@ def main():
 		outfile.close()
 
 	result = result.json()
-	parseResults(result)
+	parseResults(result, subreddit)
 
 # Parse the resulting JSON to an HTML page
-def parseResults(result):
+def parseResults(result, subreddit):
 	outfile = open('templates/' + subreddit + '_scrape.html', 'w')
+
+	generateHeader(outfile)
 
 	for child in result['data']['children']:
 		postText = child['data']['selftext']
 		user = child['data']['author']
 		title = child['data']['title']
 
-
+def generateHeader(outfile):
+	outfile.write("<!DOCTYPE html>")

@@ -1,4 +1,4 @@
-import os, requests
+import os, requests, pandas
 from flask import Flask
 from flask import render_template, send_from_directory, request
 
@@ -43,7 +43,22 @@ def twitterHome():
 def run_twitter_scraper():
 	twitterHandle = request.form['twitterHandle']
 	print("Desired handle: " + twitterHandle)
-	return "Scraper goes here"
+	try:
+		os.system('twint -u ' + twitterHandle + ' -o json/' + twitterHandle + '_scrape.json --json --timeline')
+
+		# We now have the scrape data in JSON format, but we also want it in CSV. Although twint offers CSV, it's messy and incomplete. Instead of using twint
+		# to generate the CSV output, therefore, we should route convert the json data to a pandas dataframe and save it as CSV.
+		df = pandas.read_json('json/' + twitterHandle + '_scrape.json', lines = True)
+		df.to_csv('csv/' + twitterHandle + '_scrape.csv')
+
+		if request.form['downloadCSV']:
+			return send_from_directory('csv', twitterHandle + '_scrape.csv')
+		elif request.form['downloadJSON']:
+			return send_from_directory('json', twitterHandle + '_scrape.json')
+		else:
+			return "Successfully ran scrape"
+	except:
+		return "Scrape failed."
 
 @app.route('/instagramScraper')
 def instagramHome():
