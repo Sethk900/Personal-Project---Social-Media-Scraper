@@ -39,6 +39,12 @@ def run_reddit_scraper():
 def twitterHome():
 	return render_template('twitter_home.html')
 
+@app.route('/submitTwitterHandle', methods = ['POST'])
+def run_twitter_scraper():
+	twitterHandle = request.form['twitterHandle']
+	print("Desired handle: " + twitterHandle)
+	return "Scraper goes here"
+
 @app.route('/instagramScraper')
 def instagramHome():
 	return render_template('instagram_home.html')
